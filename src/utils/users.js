@@ -37,16 +37,6 @@ const addUser = ({id, displayName, room}) => {
     return { user };
 };
 
-// const removeUser = (id) => {
-//     const usersFiltered = users.filter((user) => {
-//         return user.id !== id;
-//     });
-
-//     users = usersFiltered;
-
-//     return users;
-// };
-
 const removeUser = (id) => {
     const index = users.findIndex(user => user.id === id);
 

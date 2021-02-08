@@ -11,6 +11,7 @@
 <body>
     <h1>Chat app</h1>
 
+    <div id="sidebar"></div>
     <div id="messages"></div>
 
     <form action="" class="chat-message-form">
@@ -27,6 +28,16 @@
             <p>{{createdAt}} - <strong>{{displayName}}</strong>:</p>
             <p>{{message}}</p>
         </div>
+    </script>
+
+    <script id="sidebar-template" type="text/html">
+        <h2>{{room}}</h2>
+        <h3>Users</h3>
+        <ul>
+            {{#users}}
+                <li>{{displayName}}</li>
+            {{/users}}
+        </ul>
     </script>
 
     <script id="location-template" type="text/html">

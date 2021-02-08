@@ -41,6 +41,10 @@ io.on('connection', (socket) => {
 
         // broadcast sends to everyone except the current user
         socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.displayName} has joined!`));
+        io.to(user.room).emit('roomData', {
+            room: user.room,
+            users: getUsersInRoom(user.room)
+        });  
 
         // calling without arguments means no error
         ackCallback();
@@ -72,6 +76,10 @@ io.on('connection', (socket) => {
         if (user) {
             // whenever a client gets disconnected
             io.to(user.room).emit('message', generateMessage('Admin', `${user.displayName} has left.`));
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            });
         }
     });
 });
