@@ -11,21 +11,34 @@ const messages = document.querySelector('#messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
 
+// options
+const { displayName, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
 // // receive event server is sending
-socket.on('message', (message) => {
+socket.on('message', ({displayName, text, createdAt}) => {
     // console.log(message);
     const html = Mustache.render(messageTemplate, {
-        message
+        displayName,
+        message: text,
+        createdAt: moment(createdAt).format('dddd h:mm:ss a')
     });
     messages.insertAdjacentHTML('beforeend', html);
 });
 
-socket.on('locationMessage', (url) => {
-    // console.log(url)
+socket.on('locationMessage', ({displayName, url, createdAt}) => {
     const html = Mustache.render(locationTemplate, {
-        url
+        displayName,
+        url,
+        createdAt: moment(createdAt).format('dddd h:mm:ss a')
     });
     messages.insertAdjacentHTML('beforeend', html);
+});
+
+socket.emit('join', { displayName, room }, (error) => {
+    if (error) {
+        alert(error);
+        location.href = "/"
+    }
 });
 
 const fetchLocation = async () => {
